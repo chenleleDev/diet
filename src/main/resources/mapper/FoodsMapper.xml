@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaclimb.mapper.FoodsMapper">
+	
+	<select id="getList" parameterType="foods" resultType="foods">
+		select * from foods		
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>			
+			<if test="name!=null and name!=''">
+				and name like '%${name}%'
+			</if>			
+			<if test="des!=null and des!=''">
+				and des like '%${des}%'
+			</if>			
+			<if test="state!=null and state>0">
+				and state = #{state}
+			</if>
+			<if test="searchContent!=null and searchContent!=''">
+				and (name like '%${searchContent}%' or des like '%${searchContent}%') 
+			</if>			
+		</where>	
+	</select>
+
+	<insert id="add" parameterType="foods">
+		insert into foods(name,avatarUrl,heat,des,state)
+		values(#{name},#{avatarUrl},#{heat},#{des},#{state})
+	</insert>
+	
+	<update id="delete" parameterType="foods">
+		delete from foods where id=#{id}
+	</update>
+	
+	<update id="update" parameterType="foods">
+		update foods 
+		set name=#{name},avatarUrl=#{avatarUrl},heat=#{heat},des=#{des}
+		where id=#{id}
+	</update>
+	
+	<update id="updateState" parameterType="foods">
+		update foods 
+		set state=#{state}
+		where id=#{id}
+	</update>	
+	
+</mapper>

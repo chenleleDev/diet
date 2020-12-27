@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaclimb.mapper.SwiperMapper">
+	
+	<select id="getList" parameterType="swiper" resultType="swiper">
+		select * from swiper		
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>			
+			<if test="name!=null and name!=''">
+				and name like '%${name}%'
+			</if>		
+			<if test="state!=null and state>0">
+				and state = #{state}
+			</if>
+			<if test="searchContent!=null and searchContent!=''">
+				name like '%${searchContent}%'
+			</if>			
+		</where>	
+	</select>
+
+	<insert id="add" parameterType="swiper">
+		insert into swiper(name,avatarUrl,state)
+		values(#{name},#{avatarUrl},#{state})
+	</insert>
+	
+	<update id="delete" parameterType="swiper">
+		delete from swiper where id=#{id}
+	</update>
+	
+	<update id="update" parameterType="swiper">
+		update swiper 
+		set name=#{name},avatarUrl=#{avatarUrl}
+		where id=#{id}
+	</update>
+	
+	<update id="updateState" parameterType="swiper">
+		update swiper 
+		set state=#{state}
+		where id=#{id}
+	</update>	
+	
+</mapper>

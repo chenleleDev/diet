@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaclimb.mapper.SysUserMapper">
+
+	<select id="getUserByUserName" parameterType="sysUser" resultType="sysUser">
+		select * from sys_user where username=#{username}
+	</select>
+	
+	<select id="getList" parameterType="sysUser" resultType="sysUser">
+		select * from sys_user		
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="username!=null and username!=''">
+				and username = #{username}
+			</if>
+			<if test="password!=null and password!=''">
+				and password = #{password}
+			</if>
+			<if test="name!=null and name!=''">
+				and name = #{name}
+			</if>
+			<if test="sex!=null and sex!=''">
+				and sex = #{sex}
+			</if>
+			<if test="age!=null and age!=''">
+				and age = #{age}
+			</if>
+			<if test="state!=null and state!=''">
+				and state = #{state}
+			</if>
+			<if test="searchContent!=null and searchContent!=''">
+				and (username like '%${searchContent}%' or name like '%${searchContent}%') 
+			</if>			
+		</where>	
+	</select>
+
+	<insert id="add" parameterType="sysUser">
+		insert into sys_user(username,password,name,sex,age,avatarUrl)
+		values(#{username},#{password},#{name},#{sex},#{age},#{avatarUrl})
+	</insert>
+	
+	<update id="delete" parameterType="sysUser">
+		update sys_user set state=2 where id=#{id}
+	</update>
+	
+	<update id="update" parameterType="sysUser">
+		update sys_user 
+		set password=#{password},name=#{name},sex=#{sex},age=#{age},avatarUrl=#{avatarUrl}
+		where id=#{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaclimb.mapper.SwiperFoodsMapper">
+	
+	<select id="getList" parameterType="swiperFoods" resultType="swiperFoods">
+		select * from swiper_foods		
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="state!=null and state>0">
+				and state = #{state}
+			</if>
+			<if test="swiperid!=null and swiperid!=''">
+				and swiperid = #{swiperid}
+			</if>
+			<if test="foodsid!=null and foodsid!=''">
+				and foodsid = #{foodsid}
+			</if>
+						
+			<if test="searchContent!=null and searchContent!=''">
+				and (name like '%${searchContent}%' or foodsName like '%${searchContent}%') 
+			</if>			
+		</where>	
+	</select>
+
+	<insert id="add" parameterType="swiperFoods">
+		insert into swiper_foods(name,avatarUrl,swiperid,foodsid,foodsName,foodsAvatarUrl,foodsHeat,foodsDes)
+		values(#{name},#{avatarUrl},#{swiperid},#{foodsid},#{foodsName},#{foodsAvatarUrl},#{foodsHeat},#{foodsDes})
+	</insert>
+	
+	<update id="delete" parameterType="swiperFoods">
+		delete from swiper_foods where id=#{id}
+	</update>
+	
+	<update id="update" parameterType="swiperFoods">
+		update swiper_foods 
+		set name=#{name},avatarUrl=#{avatarUrl},swiperid=#{swiperid},foodsid=#{foodsid},foodsName=#{foodsName},
+			foodsAvatarUrl=#{foodsAvatarUrl},foodsHeat=#{foodsHeat},foodsDes=#{foodsDes}
+		where id=#{id}
+	</update>
+	
+	<update id="updateState" parameterType="swiperFoods">
+		update swiper_foods 
+		set state=#{state}
+		where id=#{id}
+	</update>	
+	
+</mapper>

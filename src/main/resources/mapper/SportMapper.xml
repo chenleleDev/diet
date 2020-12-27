@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaclimb.mapper.SportMapper">
+	
+	<select id="getList" parameterType="sport" resultType="sport">
+		select * from sport		
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>			
+			<if test="name!=null and name!=''">
+				and name like '%${name}%'
+			</if>			
+			<if test="des!=null and des!=''">
+				and des like '%${des}%'
+			</if>			
+			<if test="state!=null and state>0">
+				and state = #{state}
+			</if>
+			<if test="searchContent!=null and searchContent!=''">
+				and (name like '%${searchContent}%' or des like '%${searchContent}%') 
+			</if>			
+		</where>	
+	</select>
+
+	<insert id="add" parameterType="sport">
+		insert into sport(name,avatarUrl,heat,des,state)
+		values(#{name},#{avatarUrl},#{heat},#{des},#{state})
+	</insert>
+	
+	<update id="delete" parameterType="sport">
+		delete from sport where id=#{id}
+	</update>
+	
+	<update id="update" parameterType="sport">
+		update sport 
+		set name=#{name},avatarUrl=#{avatarUrl},heat=#{heat},des=#{des}
+		where id=#{id}
+	</update>
+	
+	<update id="updateState" parameterType="sport">
+		update sport 
+		set state=#{state}
+		where id=#{id}
+	</update>	
+	
+</mapper>
