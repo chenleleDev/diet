@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaclimb.mapper.UserMapper">
+
+	<select id="getList" parameterType="user" resultType="user">
+		select * from user		
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="username!=null and username!=''">
+				and username = #{username}
+			</if>
+			<if test="password!=null and password!=''">
+				and password = #{password}
+			</if>
+			<if test="name!=null and name!=''">
+				and name = #{name}
+			</if>
+			<if test="gender!=null and gender!=''">
+				and gender = #{gender}
+			</if>
+			<if test="age!=null and age!=''">
+				and age = #{age}
+			</if>
+			<if test="state!=null and state!=''">
+				and state = #{state}
+			</if>
+			<if test="searchContent!=null and searchContent!=''">
+				and (username like '%${searchContent}%' or name like '%${searchContent}%') 
+			</if>			
+		</where>	
+	</select>
+
+	<insert id="add" parameterType="user">
+		insert into user(username,password,name,gender,age,avatarUrl,phone,height,weight,occupation,intake,target)
+		values(#{username},#{password},#{name},#{gender},#{age},#{avatarUrl},#{phone},#{height},#{weight},#{occupation},#{intake},#{target})
+	</insert>
+	
+	<update id="delete" parameterType="user">
+		update user set state=2 where id=#{id}
+	</update>
+	
+	<update id="update" parameterType="user">
+		update user 
+		set password=#{password},name=#{name},gender=#{gender},age=#{age},avatarUrl=#{avatarUrl},
+		phone=#{phone},height=#{height},weight=#{weight},occupation=#{occupation},intake=#{intake},target=#{target}
+		where id=#{id}
+	</update>
+	
+	<update id="updateState" parameterType="swiper">
+		update user 
+		set state=#{state}
+		where id=#{id}
+	</update>	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaclimb.mapper.UserIntakeDailyMapper">
+	
+	<select id="getList" parameterType="userIntakeDaily" resultType="userIntakeDaily">
+		select * from user_intake_daily		
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>			
+			<if test="uid!=null and uid!=''">
+				and uid = #{uid}
+			</if>		
+			<if test="state!=null and state>0">
+				and state = #{state}
+			</if>
+			<if test="intake!=null and intake!=''">
+				and intake = #{intake}
+			</if>
+			<if test="insertDate!=null">
+				and insertDate = date(#{insertDate})
+			</if>
+		</where>	
+	</select>
+
+	<insert id="add" parameterType="userIntakeDaily">
+		insert into user_intake_daily(uid,intake,insertDate)
+		values(#{uid},#{intake},#{insertDate})
+	</insert>
+	
+	<update id="delete" parameterType="userIntakeDaily">
+		delete from user_intake_daily where id=#{id}
+	</update>
+	
+	<update id="update" parameterType="userIntakeDaily">
+		update user_intake_daily 
+		set uid=#{uid},intake=#{intake},insertDate=#{insertDate}
+		where id=#{id}
+	</update>
+	
+	<update id="updateState" parameterType="userIntakeDaily">
+		update user_intake_daily 
+		set state=#{state}
+		where id=#{id}
+	</update>	
+	
+</mapper>
