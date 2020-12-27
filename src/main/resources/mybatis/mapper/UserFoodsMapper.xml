@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaclimb.mapper.UserFoodsMapper">
+	
+	<select id="getList" parameterType="userFoods" resultType="userFoods">
+		select * from user_foods		
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="state!=null and state>0">
+				and state = #{state}
+			</if>
+			<if test="uid!=null and uid!=''">
+				and uid = #{uid}
+			</if>
+			<if test="fid!=null and fid!=''">
+				and fid = #{fid}
+			</if>
+						
+			<if test="searchContent!=null and searchContent!=''">
+				and (name like '%${searchContent}%' or userName like '%${searchContent}%') 
+			</if>
+			
+			<if test="createTime!=null">
+				and date(createTime) = date(now())
+			</if>
+		</where>	
+	</select>
+
+	<insert id="add" parameterType="userFoods">
+		insert into user_foods(uid,fid,name,avatarUrl,heat,des,userName,userAvatarUrl)
+		values(#{uid},#{fid},#{name},#{avatarUrl},#{heat},#{des},#{userName},#{userAvatarUrl})
+	</insert>
+	
+	<update id="delete" parameterType="userFoods">
+		delete from user_foods where id=#{id}
+	</update>
+	
+	<update id="update" parameterType="userFoods">
+		update user_foods 
+		set uid=#{uid},fid=#{fid},name=#{name},
+			avatarUrl=#{avatarUrl},heat=#{heat},des=#{des},
+			userName=#{userName},userAvatarUrl=#{userAvatarUrl}
+		where id=#{id}
+	</update>
+	
+	<update id="updateState" parameterType="userFoods">
+		update user_foods 
+		set state=#{state}
+		where id=#{id}
+	</update>
+
+	<select id="getTodayTotalHeat" parameterType="statisticsBean" resultType="BigDecimal">
+		select IFNULL(sum(heat),0.0) as total from user_foods
+		where uid=#{uid} and date(createTime) = date(now())
+	</select>
+	
+</mapper>
+
+
